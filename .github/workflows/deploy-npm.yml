@@ -55,6 +55,7 @@ jobs:
         id: npm_build
         with:
           USE_YARN: "${{ inputs.USE_YARN }}"
+          CI: "${{ inputs.CI }}"
 
       - uses: athenarc/actions-docker-build-push@master
         id: docker_build
