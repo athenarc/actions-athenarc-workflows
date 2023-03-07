@@ -33,10 +33,16 @@ on:
         required: false
         type: string        
         default: "true"        
-      DOCKER_PASSWORD:
+      VAULT_ADDR:
         required: true
         type: string
-      AUTH_TOKEN:
+      VAULT_ROLE:
+        required: true
+        type: string   
+      VAULT_PATH_DOCKER_PASSWORD:
+        required: true
+        type: string
+      VAULT_PATH_AUTH_TOKEN:
         required: false
         type: string
 
@@ -50,6 +56,16 @@ jobs:
     
     steps:
 
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v2.5.0
+        with:
+          method: jwt
+          url: ${{ input.VAULT_ADDR }}
+          role: ${{ input.VAULT_ROLE }}
+          secrets: |
+              ${{ input.VAULT_PATH_DOCKER_PASSWORD }} password | DOCKER_PASSWORD ; 
+              ${{ input.VAULT_PATH_AUTH_TOKEN }} token | DOCKER_COMPOSE_DEPLOY_TOKEN ; 
+              
       - uses: actions/checkout@v2
 
       - uses: athenarc/actions-npm-build@master
@@ -65,13 +81,13 @@ jobs:
           DOCKER_REPO: "${{ inputs.DOCKER_REPO }}"
           QEMU_SETUP: "${{ inputs.QEMU_SETUP }}"
           DOCKER_USER: "${{ inputs.DOCKER_USER }}"
-          DOCKER_PASSWORD: "${{ inputs.DOCKER_PASSWORD }}"
+          DOCKER_PASSWORD: "${{ env.DOCKER_PASSWORD }}"
           CI: "${{ inputs.CI }}"
 
       - uses: athenarc/actions-docker-compose-deploy@master
         id: docker_deploy
         with:
-          AUTH_TOKEN: "${{ inputs.AUTH_TOKEN }}"
+          AUTH_TOKEN: "${{ env.DOCKER_COMPOSE_DEPLOY_TOKEN }}"
           USE_PULL_REPO: "${{ inputs.USE_PULL_REPO }}"
           DEPLOY_URL: "${{ inputs.DEPLOY_URL }}"
           IMAGES: "${{ steps.docker_build.outputs.images }}"
