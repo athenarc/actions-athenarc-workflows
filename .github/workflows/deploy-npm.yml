@@ -65,13 +65,13 @@ jobs:
           DOCKER_REPO: "${{ inputs.DOCKER_REPO }}"
           QEMU_SETUP: "${{ inputs.QEMU_SETUP }}"
           DOCKER_USER: "${{ inputs.DOCKER_USER }}"
-          DOCKER_PASSWORD: "${{ env.DOCKER_PASSWORD }}"
+          DOCKER_PASSWORD: "${{ inputs.DOCKER_PASSWORD }}"
           CI: "${{ inputs.CI }}"
 
       - uses: athenarc/actions-docker-compose-deploy@master
         id: docker_deploy
         with:
-          AUTH_TOKEN: "${{ env.AUTH_TOKEN }}"
+          AUTH_TOKEN: "${{ inputs.AUTH_TOKEN }}"
           USE_PULL_REPO: "${{ inputs.USE_PULL_REPO }}"
           DEPLOY_URL: "${{ inputs.DEPLOY_URL }}"
           IMAGES: "${{ steps.docker_build.outputs.images }}"
