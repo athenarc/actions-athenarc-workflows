@@ -60,11 +60,11 @@ jobs:
         uses: hashicorp/vault-action@v2.5.0
         with:
           method: jwt
-          url: ${{ input.VAULT_ADDR }}
-          role: ${{ input.VAULT_ROLE }}
+          url: ${{ inputs.VAULT_ADDR }}
+          role: ${{ inputs.VAULT_ROLE }}
           secrets: |
-              ${{ input.VAULT_PATH_DOCKER_PASSWORD }} password | DOCKER_PASSWORD ; 
-              ${{ input.VAULT_PATH_AUTH_TOKEN }} token | DOCKER_COMPOSE_DEPLOY_TOKEN ; 
+              ${{ inputs.VAULT_PATH_DOCKER_PASSWORD }} password | DOCKER_PASSWORD ; 
+              ${{ inputs.VAULT_PATH_AUTH_TOKEN }} token | DOCKER_COMPOSE_DEPLOY_TOKEN ; 
               
       - uses: actions/checkout@v2
 
