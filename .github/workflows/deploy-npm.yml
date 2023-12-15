@@ -32,7 +32,11 @@ on:
       CI: 
         required: false
         type: string        
-        default: "true"        
+        default: "true"
+      NODE_VERSION:
+        required: false
+        type: string
+        default: "14.x"
     secrets:
       DOCKER_PASSWORD:
         required: true
@@ -56,6 +60,7 @@ jobs:
         with:
           USE_YARN: "${{ inputs.USE_YARN }}"
           CI: "${{ inputs.CI }}"
+          NODE_VERSION: "${{ inputs.NODE_VERSION }}"
 
       - uses: athenarc/actions-docker-build-push@master
         id: docker_build
