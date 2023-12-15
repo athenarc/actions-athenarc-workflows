@@ -45,6 +45,10 @@ on:
       VAULT_PATH_AUTH_TOKEN:
         required: false
         type: string
+     NODE_VERSION:
+        required: false
+        type: string
+        default: "14.x"        
 
 jobs:
   docker_build:
@@ -73,6 +77,7 @@ jobs:
         with:
           USE_YARN: "${{ inputs.USE_YARN }}"
           CI: "${{ inputs.CI }}"
+          NODE_VERSION: "${{ inputs.NODE_VERSION }}"
 
       - uses: athenarc/actions-docker-build-push@master
         id: docker_build
