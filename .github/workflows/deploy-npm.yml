@@ -45,7 +45,7 @@ on:
       VAULT_PATH_AUTH_TOKEN:
         required: false
         type: string
-     NODE_VERSION:
+      NODE_VERSION:
         required: false
         type: string
         default: "14.x"        
